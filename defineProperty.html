@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let person = {};
+        //   1.writable
+        // Object.defineProperty(person,'name',{
+        //     value:'小明',
+        //     writable:false   /// 是否可以改变属性的值
+        // });
+        // const newPerson = Object.assign(person,{name:'123'});
+        //2,set,get
+        // console.log(person);
+
+        let obj = {};
+        let keys = 'hello';
+        Object.defineProperty(obj,'name',{
+            // 获取值的时候触发
+            get(){
+                return keys;
+            },
+            // 当设置值的触发，参数的新值通过newVal获取
+            set(newVal){
+                keys = newVal
+            }
+        });
+        console.log(obj);
+        obj.name = 'change';
+        console.log(obj)
+    </script>
+</body>
+</html>

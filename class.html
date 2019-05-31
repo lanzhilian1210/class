@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // class constructor
+        // 摘要： es6的class是一个语法糖,写法更加优雅，更新面向对象编程思想,和es5思想一致
+        // constructor ： constructor是类的构造函数，是一个默认的方法，
+        function Person(name) {
+            this.name = name;
+            this.age = 1;
+            this.showFn = function () { 
+                console.log('showFn');
+             }
+        };
+        Person.prototype.say = function () { 
+            console.log('say');
+        };
+        
+        var one = new Person('js');
+        // console.log(Person.prototype);
+        // console.log(one);  //{name:js,showFn:function(){}}
+        // console.log(one.showFn());  showFn ,undefined->没有return
+        // one.showFn();
+        // console.log(one.prototype); // undefined
+        // console.log(one.constructor)   //function Person(){}
+        // *******每个构造函数都有原型prototype属性,原型属性都有一个原型对象，原型对象都有一个constructor属性，
+        //constructor属性指向一个constructor对象，constructor对象就是构造函数本身
+        // 继承
+        function subPerson(){
+
+        };
+        subPerson.prototype = new Person();  //把子类的原型对象设置为父类的实例化对象
+        var subOne = new subPerson('js231SS'); 
+        // subOne.showFn(); // 实现继承
+        // console.log(typeof Person)  // function
+        // console.log(Person == Person.prototype.constructor);
+        class Person2 {
+            constructor(name,age) {    // constructor 是类的函数的默认构造方法，接受参数,通过new命令生成实例对象时，自动调用该方法
+                this.name = name;
+                this.age = age;
+            };
+            say() {
+                console.log(this.name);
+            }
+        }
+        var obj = new Person2('hhh');
+        obj.say();
+
+        class box{
+            constructor() {
+                console.log('被调用了');
+            }
+        };
+        // var obj = new box();  //通过new命令生成实例对象时，自动调用该方法。
+        class desk{
+            constructor() {
+                return new box();   //默认返回当前对象的this，也可以改变this指向，返回一个全新的对象
+            }
+        };
+        var obj = new desk();
+        // constructor中定义的属性是实例属性，即this对象上，constructor外定义的属性是原型属性，都定义在原型上，hasOwnProperty()
+        // 用来判断是否为实例属性,
+
+        // new A();
+        // function A(){}   //es5 变量提升
+
+        //  newA();
+        // class A{}   //es6 不存在变量提升
+        class A{
+            constructor() {
+                console.log(new.target.name);
+            }
+        };
+        class B extends A{
+            constructor() {
+                // b继承a 必须调用super();
+                super() // 在constructor 调用该方法，子类没有自己的this对象，继承了父类的this对象，super代表了父类的构造函数，返回的是子类的实例
+                // 内部this指向B
+            }
+        };
+        new A();
+        new B();
+
+        class a{
+            c() {
+                return 3
+            }
+        };
+        class D extends a{
+            constructor(){
+                super();
+                console.log(super.c());   // super() 作为一个对象，指向a.prototype,   super().c() ==>a.prototype.c();
+            }
+        };
+        // var d = new D();
+
+        class E{
+            constructor(){
+                this.x = 1
+            };
+            // x(){
+            //     return 2
+            // }
+        };
+        class F extends E{
+            constructor(){
+                super();
+                this.x = 2;
+                super.x = 3;
+                console.log(super.x);   // undefined super.x 调用的E.prototype.x  
+                console.log(this.x);     // 3,super.xx相当于对this.x赋值
+                // console.log(super);  必须显性指定super的类型,否则报错
+            };
+        };
+        // var f = new F();
+class Student {
+    constructor(prop) {
+        this.name = prop.name;
+    };
+    
+    hello() {
+        console.log(this);   // this 指向new出来的对象
+        console.log('Hello, ' + this.name + '!' + this.job);
+    }
+}
+class PrimaryStudent extends Student {
+    constructor(prop) {
+        super(prop); 
+        this.grade = prop.grade;
+        this.name = prop.name;
+        this.job = '123';
+    }
+    myGrade() {
+        alert('I am at grade ' + this.grade);
+    }
+}
+var s = new PrimaryStudent ({name:"lee",grade:100});
+s.hello();
+// console.log(s);
+// console.log(Student.prototype);
+// console.log(PrimaryStudent.__proto__);
+class parent{
+    constructor(name,age){
+        this.age = age;
+        this.name = name;
+    };
+    say(){
+        console.log(this.name);
+    }
+}
+class child extends parent{
+    constructor(name,age){
+        super(name,age); 
+        // super 可以当作函数使用，也可以当作对象使用，当作函数使用时，super代表父类构造函数，
+        // 在子类中执行parent.apply(this),从而将父类构造函数的属性和方法添加到子类的构造函数上
+        // super 作为函数
+        //注意点 1,子类必须在constructor中调用super，如果没有定义constructor 则默认添加
+        //2，在子类的constructor中只有定义super后才可以使用this关键字，否则报错
+        //3，super只能在子类的constructor中被调用，其他地方调用报错
+        // super 作为对象时
+        //在子类中指向父类的原型对象
+        // super.a = parent.prototype.a
+        this.sex = 'man';  // 
+        
+    }
+}
+var childFn = new child('雄安',20);
+childFn.say();
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // class =>      传统的js只有对象，没有类的概念,基于原型的面向对象语言，原型对象的特点就是将自身的属性共享给新的对象
+        // 如果要生成一个对象事例，就需要一个构造函数，new出一个实例
+        function Person(name,age) {   //构造函数
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.say = function() {
+            return  "我的名字叫" + this.name+"今年"+this.age+"岁了";
+        }
+        console.log(Person.prototype);
+        var obj = new Person('小明',20);
+        
+        console.log(obj.say());
+    
+        // 执行过程: 1,使用了构造函数，并且new这个构造函数，相当于隐式执行了new.Object()创建对象;
+        //2,将构造函数的作用域给新对象，（即new.Object()后的对象），而当前构造函数的this代表了new出来的对象;
+        //3,执行构造函数的代码(为这个新对象添加属性)
+        //4,返回新的对象
+
+        // new的过程
+
+        // var obj  = {};
+        // obj.__proto__ = Base.prototype;
+        // Base.call(obj);
+        //1,创建一个新的对象
+        //2,将这个空对象的_proto_指向了构造函数的prototype,
+        //3,将构造函数的this指向了这个新对象( Person.call(obj) )
+    </script>
+</body>
+</html>
